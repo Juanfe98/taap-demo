@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
+import ShoppingCart from "./ShoppingCart";
 
-const Navbar = () => {
+interface NavbarProps {
+  shoppingCart: any;
+}
+
+const Navbar = ({ shoppingCart }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -15,8 +20,9 @@ const Navbar = () => {
             Products List
           </a>
           <a href="#" className="hover:text-gray-300">
-            My Orders
+            My Orders ||
           </a>
+          <ShoppingCart cartItemCount={shoppingCart.length} />
         </div>
         <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
           <svg
@@ -41,6 +47,7 @@ const Navbar = () => {
             <a href="#" className="hover:text-gray-300">
               My Orders
             </a>
+            <ShoppingCart cartItemCount={shoppingCart.length} />
           </div>
         )}
       </div>

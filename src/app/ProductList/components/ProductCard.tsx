@@ -1,7 +1,12 @@
 "use client";
 import React from "react";
 
-function ProductCard({ product }: any) {
+interface ProductCardProps {
+  product: any;
+  addProductToCart: ({ product }: any) => void;
+}
+
+function ProductCard({ product, addProductToCart }: ProductCardProps) {
   return (
     <div className="bg-white shadow-lg rounded-lg flex flex-col mb-4 overflow-hidden">
       <img
@@ -18,7 +23,7 @@ function ProductCard({ product }: any) {
       <button
         className=" w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
         onClick={() => {
-          console.log("adding to cart");
+          addProductToCart({ product });
         }}
       >
         Add to Cart

@@ -5,6 +5,7 @@ import React from "react";
 import ProductCard from "./components/ProductCard";
 import Badge from "./components/CategoryFilter/Badge";
 import { getProductsByCategory } from "../services/products";
+import Navbar from "../common/components/NavBar";
 
 export type FilterProductByCategory = ({
   categoryName,
@@ -14,6 +15,7 @@ export type FilterProductByCategory = ({
 
 const ProductList = () => {
   const [productsData, setProductsData] = React.useState(productsJSON);
+  const [shoppingCart, setShoppingCart] = React.useState<any[] | []>([]);
 
   const filterProductByCategory = async ({
     categoryName,
@@ -24,22 +26,33 @@ const ProductList = () => {
     setProductsData(filteredProducts);
   };
 
+  const addProductToCart = ({ product }: any) => {
+    setShoppingCart((prevState) => [...prevState, product]);
+  };
+
   return (
     <>
-      <div className="mb-6">
-        {categoriesData.map((categoryName) => (
-          <Badge
-            name={categoryName}
-            filterProductByCategory={filterProductByCategory}
-            key={categoryName}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {productsData.map((product) => (
-          <ProductCard product={product} key={product.id} />
-        ))}
-      </div>
+      <Navbar shoppingCart={shoppingCart} />
+      <main className="container mx-auto px-4 py-8 flex-1">
+        <div className="mb-6">
+          {categoriesData.map((categoryName) => (
+            <Badge
+              name={categoryName}
+              filterProductByCategory={filterProductByCategory}
+              key={categoryName}
+            />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {productsData.map((product) => (
+            <ProductCard
+              addProductToCart={addProductToCart}
+              product={product}
+              key={product.id}
+            />
+          ))}
+        </div>
+      </main>
     </>
   );
 };
