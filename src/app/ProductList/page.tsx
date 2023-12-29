@@ -1,11 +1,10 @@
 "use client";
-import productsJSON from "@/app/data/products.json";
-import categoriesData from "@/app/data/products_categories.json";
 import React from "react";
 import ProductCard from "./components/ProductCard";
 import Badge from "./components/CategoryFilter/Badge";
-import { getProductsByCategory } from "../services/products";
+import { getProducts, getProductsByCategory } from "../services/products";
 import Navbar from "../common/components/NavBar";
+import { getCategories } from "../services/category";
 
 export type FilterProductByCategory = ({
   categoryName,
@@ -14,7 +13,8 @@ export type FilterProductByCategory = ({
 }) => void;
 
 const ProductList = () => {
-  const [productsData, setProductsData] = React.useState(productsJSON);
+  const [productsData, setProductsData] = React.useState<any[]>([]);
+  const [categoriesData, setCategoriesData] = React.useState<any[]>([]);
   const [shoppingCart, setShoppingCart] = React.useState<any[] | []>([]);
 
   const filterProductByCategory = async ({
@@ -22,7 +22,10 @@ const ProductList = () => {
   }: {
     categoryName: string;
   }) => {
-    const filteredProducts = await getProductsByCategory({ categoryName });
+    const normalized = categoryName.toLowerCase();
+    const filteredProducts = await getProductsByCategory({
+      categoryName: normalized,
+    });
     setProductsData(filteredProducts);
   };
 
@@ -47,6 +50,15 @@ const ProductList = () => {
     setShoppingCart(newCart);
   };
 
+  React.useEffect(() => {
+    (async () => {
+      const productsList = await getProducts();
+      const categoriesList = await getCategories();
+      setProductsData(productsList);
+      setCategoriesData(categoriesList);
+    })();
+  }, []);
+
   return (
     <>
       <Navbar
@@ -58,11 +70,11 @@ const ProductList = () => {
           <aside className="w-full md:w-1/4">
             <div className="flex flex-col space-y-2 items-start gap-2">
               <h2 className="text-2xl italic text-gray-800">Categories</h2>
-              {categoriesData.map((categoryName) => (
+              {categoriesData.map((category) => (
                 <Badge
-                  name={categoryName}
+                  name={category.name}
                   filterProductByCategory={filterProductByCategory}
-                  key={categoryName}
+                  key={category.id}
                 />
               ))}
             </div>

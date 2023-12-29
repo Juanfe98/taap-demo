@@ -17,7 +17,7 @@ function ProductCard({ product, addProductToCart }: ProductCardProps) {
 
       <div className="p-4 flex-grow">
         <h3 className="text-lg font-semibold text-gray-800">{product.title}</h3>
-        <p className="text-gray-600 mt-1">${product.price}</p>
+        <p className="text-gray-600 mt-1">${product.pricePerUnit || 0}</p>
       </div>
 
       <button

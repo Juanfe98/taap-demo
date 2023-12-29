@@ -4,11 +4,16 @@ import ShoppingCart from "./ShoppingCart";
 import CartModal from "./CartModal";
 
 interface NavbarProps {
-  shoppingCart: any;
-  removeProductFromCart: ({ productId }: { productId: number }) => void;
+  shoppingCart?: any;
+  removeProductFromCart?: ({ productId }: { productId: number }) => void;
+  shouldRenderCart?: boolean;
 }
 
-const Navbar = ({ shoppingCart, removeProductFromCart }: NavbarProps) => {
+const Navbar = ({
+  shoppingCart,
+  removeProductFromCart,
+  shouldRenderCart = true,
+}: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -20,16 +25,18 @@ const Navbar = ({ shoppingCart, removeProductFromCart }: NavbarProps) => {
             Triforce Team - Demo
           </a>
           <div className="hidden md:flex space-x-4">
-            <a href="#" className="hover:text-gray-300">
+            <a href="ProductList" className="hover:text-gray-300">
               Products List
             </a>
-            <a href="#" className="hover:text-gray-300">
-              My Orders ||
+            <a href="OrderHistory" className="hover:text-gray-300">
+              My Orders
             </a>
-            <ShoppingCart
-              cartItemCount={shoppingCart.length}
-              setIsCartOpen={setIsCartOpen}
-            />
+            {shouldRenderCart && (
+              <ShoppingCart
+                cartItemCount={shoppingCart.length}
+                setIsCartOpen={setIsCartOpen}
+              />
+            )}
           </div>
           <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
             <svg
@@ -54,20 +61,24 @@ const Navbar = ({ shoppingCart, removeProductFromCart }: NavbarProps) => {
               <a href="#" className="hover:text-gray-300">
                 My Orders
               </a>
-              <ShoppingCart
-                cartItemCount={shoppingCart.length}
-                setIsCartOpen={setIsCartOpen}
-              />
+              {shouldRenderCart && (
+                <ShoppingCart
+                  cartItemCount={shoppingCart.length}
+                  setIsCartOpen={setIsCartOpen}
+                />
+              )}
             </div>
           )}
         </div>
       </nav>
-      <CartModal
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={shoppingCart}
-        onRemove={removeProductFromCart}
-      />
+      {shouldRenderCart && (
+        <CartModal
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={shoppingCart}
+          onRemove={removeProductFromCart}
+        />
+      )}
     </>
   );
 };
