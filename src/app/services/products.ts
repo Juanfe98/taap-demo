@@ -8,7 +8,7 @@ export async function getProductsByCategory({ categoryName }) {
 
 // When the API is active uncomment the code  and delete the import from the prductsJSON
 export async function getProducts() {
-  // const productsList = await fetch(`https://localhost::8090/products/`).then(
+  // const productsList = await fetch(`http://localhost:8090/products/`).then(
   //   (response) => response.json(),
   // );
   return productsList;

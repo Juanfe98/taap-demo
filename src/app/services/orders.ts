@@ -69,8 +69,9 @@ const orders = [
   },
 ];
 
-export async function getProducts() {
-  // const productsList = await fetch(`https://localhost::8090/order-histories/`).then(
+// When te BE is done uncomment the code and return orderList
+export async function getOrders() {
+  // const orderList = await fetch(`http://localhost:8090/order-histories/`).then(
   //   (response) => response.json(),
   // );
   return orders;
