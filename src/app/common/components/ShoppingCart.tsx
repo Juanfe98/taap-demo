@@ -3,11 +3,12 @@ import { FaShoppingCart } from "react-icons/fa";
 
 interface ShoppingCartProps {
   cartItemCount: number;
+  setIsCartOpen: (value: boolean) => void;
 }
 
-const ShoppingCart = ({ cartItemCount }: ShoppingCartProps) => (
+const ShoppingCart = ({ cartItemCount, setIsCartOpen }: ShoppingCartProps) => (
   <button
-    onClick={() => console.log("Redirect to Cart")}
+    onClick={() => setIsCartOpen(true)}
     className="flex items-center hover:text-gray-300"
   >
     <FaShoppingCart size={20} />

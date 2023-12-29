@@ -1,23 +1,36 @@
 "use client";
 import React from "react";
 import { FilterProductByCategory } from "../../page";
+
 interface BadgeProps {
   name: string;
   filterProductByCategory: FilterProductByCategory;
 }
+
 function Badge({
   name,
   filterProductByCategory: filterProductsByCategory,
 }: BadgeProps) {
+  const handleCheckboxChange = () => {
+    filterProductsByCategory({ categoryName: name });
+  };
+
   return (
-    <button
-      className="px-2"
-      onClick={() => filterProductsByCategory({ categoryName: name })}
-    >
-      <span className="px-6 py-3 rounded-lg bg-sky-500 hover:bg-sky-600 transition-colors text-white	">
+    <div className="flex items-center">
+      <input
+        type="checkbox"
+        id={`checkbox-test`}
+        name="test"
+        onChange={handleCheckboxChange}
+        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+      />
+      <label
+        htmlFor={`checkbox-${name}`}
+        className="ml-2 text-sm font-medium text-gray-700 cursor-pointer"
+      >
         {name}
-      </span>
-    </button>
+      </label>
+    </div>
   );
 }
 
